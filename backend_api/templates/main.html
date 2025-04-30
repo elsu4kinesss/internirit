@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block react_components %}
+<script type="text/babel">
+    {% include "components/theme_context.js" %}
+    {% include "components/auth_context.js" %}
+    {% include "components/auth_modal.js" %}
+    {% include "components/header.js" %}
+    {% include "components/router.js" %}
+    
+    {% include "main_page/internship_card.js" %}
+    {% include "main_page/filter_panel.js" %}
+    {% include "main_page/home_page.js" %}
+    {% include "articles_page/article_card.js" %}
+    {% include "articles_page/articles_page.js" %}
+    {% include "articles_page/article_detail.js" %}
+    
+    function App() {
+        return (
+            <ThemeProvider>
+                <AuthProvider>
+                    <Header />
+                    <Router 
+                        HomePage={HomePage}
+                        ArticlesPage={ArticlesPage}
+                        ArticleDetail={ArticleDetail}
+                    />
+                    <AuthModal />
+                </AuthProvider>
+            </ThemeProvider>
+        );
+    }
+    
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+</script>
+{% endblock %}
