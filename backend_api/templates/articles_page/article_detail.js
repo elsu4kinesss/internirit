@@ -44,7 +44,7 @@ function ArticleDetail({ id }) {
         
                 <div className="article-meta" style={{ marginBottom: '1.5rem' }}>
                     <span>{article.category}</span>
-                    <span>{article.date}</span>
+                    <span>{formatDate(article.date)}</span>
                 </div>
         
                 <div dangerouslySetInnerHTML={{ __html: article.content }} style={{ lineHeight: '1.8' }} />

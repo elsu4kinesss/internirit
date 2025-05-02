@@ -4,7 +4,7 @@ class Internship(models.Model):
     company = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
     description = models.TextField()
-    date = models.CharField(max_length=100)
+    date = models.DateField()
     viewed = models.BooleanField(default=False)
 
     def __str__(self):

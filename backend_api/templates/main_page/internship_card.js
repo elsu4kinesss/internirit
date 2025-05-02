@@ -14,7 +14,7 @@ function InternshipCard({ internship }) {
                 </span>
             </div>
             
-            <p className="card-date">{internship.date}</p>
+            <p className="card-date">{formatDate(internship.date)}</p>
             <p className="card-description">{internship.description}</p>
             
             <div className="card-footer">

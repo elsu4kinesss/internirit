@@ -4,7 +4,7 @@ from .models import Internship, Article
 class InternshipSerializer(serializers.ModelSerializer):
     class Meta:
         model = Internship
-        fields = ['id', 'company', 'title', 'description', 'date', 'viewed']
+        fields = '__all__'
 
 class ArticleSerializer(serializers.ModelSerializer):
     class Meta:

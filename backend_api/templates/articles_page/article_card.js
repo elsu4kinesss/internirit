@@ -5,7 +5,7 @@ function ArticleCard({ article }) {
             <h3 className="article-title">{article.title}</h3>
             <div className="article-meta">
                 <span>{article.category}</span>
-                <span>{article.date}</span>
+                <span>{formatDate(article.date)}</span>
             </div>
             <p className="article-excerpt">{article.excerpt}</p>
             <a href={`#/` + article.id} className="read-more">Читать далее</a>
