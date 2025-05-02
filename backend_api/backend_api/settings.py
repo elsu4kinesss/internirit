@@ -19,9 +19,31 @@ INSTALLED_APPS = [
     
     'rest_framework',
     'ckeditor',
+    'rest_framework.authtoken',
+    'djoser',
     
     'core'
 ]
+
+AUTHENTICATION_CLASSES = [
+    'rest_framework.authentication.TokenAuthentication',
+]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': AUTHENTICATION_CLASSES
+}
+
+AUTH_USER_MODEL = 'core.CustomUser'
+
+DJOSER = {
+    'LOGIN_FIELD': 'email',
+    'USER_CREATE_PASSWORD_RETYPE': False,
+    'SERIALIZERS': {
+        'user_create': 'core.serializers.UserCreateSerializer',
+        'user': 'core.serializers.UserSerializer',
+        'current_user': 'core.serializers.UserSerializer',
+    },
+}
 
 CORS_ALLOW_ALL_ORIGINS: True
 

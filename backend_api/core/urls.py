@@ -13,4 +13,6 @@ urlpatterns = [
     path('main/articles/', views.articles_page, name='articles'),
     path('api/internships/', internship_list, name='internship_list'),
     path('api/', include(router.urls)),
+    path('api/auth/', include('djoser.urls')),
+    path('api/auth/', include('djoser.urls.authtoken')),
 ]
