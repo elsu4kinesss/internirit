@@ -8,7 +8,7 @@ function ArticleCard({ article }) {
                 <span>{article.date}</span>
             </div>
             <p className="article-excerpt">{article.excerpt}</p>
-            <a href={`/main/articles/${article.id}`} className="read-more">Читать далее</a>
+            <a href={`#/` + article.id} className="read-more">Читать далее</a>
         </div>
     );
 }

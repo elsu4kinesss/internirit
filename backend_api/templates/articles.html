@@ -13,8 +13,8 @@
     {% include "articles_page/article_detail.js" %}
     
     function ArticlesRouter() {
-        const [route, setRoute] = React.useState(window.location.hash || '/main/articles');
-        
+        const [route, setRoute] = React.useState(window.location.hash || '#/');
+    
         React.useEffect(() => {
             const handleHashChange = () => {
                 setRoute(window.location.hash);
@@ -22,18 +22,21 @@
             window.addEventListener('hashchange', handleHashChange);
             return () => window.removeEventListener('hashchange', handleHashChange);
         }, []);
-        
-        switch (route) {
-            case '/main/articles':
-                return <ArticlesPage />;
-            default:
-                if (route.startsWith('/main/articles/')) {
-                    const id = route.split('/')[2];
-                    return <ArticleDetail id={id} />;
-                }
-                return <ArticlesPage />;
+    
+        const path = route.replace('#', '');
+    
+        if (path === '/' || path === '') {
+            return <ArticlesPage />;
         }
-    }
+    
+        const match = path.match(/^\/(\d+)$/);
+        if (match) {
+            const id = match[1];
+            return <ArticleDetail id={id} />;
+        }
+    
+        return <ArticlesPage />;
+    }    
     
     function App() {
         return (
