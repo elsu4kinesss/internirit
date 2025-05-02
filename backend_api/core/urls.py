@@ -1,11 +1,16 @@
-from django.urls import path
+from django.urls import include, path
 from django.shortcuts import redirect
 from . import views
-from .views import internship_list
+from .views import internship_list, ArticleViewSet
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'articles', ArticleViewSet)
 
 urlpatterns = [
     path('', lambda request: redirect('main')),
     path('main/', views.main_page, name='main'),
     path('main/articles/', views.articles_page, name='articles'),
     path('api/internships/', internship_list, name='internship_list'),
+    path('api/', include(router.urls)),
 ]
