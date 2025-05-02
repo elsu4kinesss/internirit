@@ -27,7 +27,7 @@ function ArticleDetail({ id }) {
 
     return (
         <div className="articles-page">
-            <div className="article-card">
+            <div className="article-detaile-card">
                 <a href="/main/articles" className="back-link" style={{
                     marginBottom: '1rem',
                     display: 'inline-block',
@@ -43,11 +43,10 @@ function ArticleDetail({ id }) {
                 </h1>
         
                 <div className="article-meta" style={{ marginBottom: '1.5rem' }}>
-                    <span>{article.category}</span>
                     <span>{formatDate(article.date)}</span>
                 </div>
-        
-                <div dangerouslySetInnerHTML={{ __html: article.content }} style={{ lineHeight: '1.8' }} />
+
+                <div className="article-content" dangerouslySetInnerHTML={{ __html: article.content }} />
             </div>
         </div>
         

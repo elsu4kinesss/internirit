@@ -12,11 +12,9 @@ class Internship(models.Model):
 
 class Article(models.Model):
     title = models.CharField(max_length=200)
-    category = models.CharField(max_length=100)
     date = models.DateField()
     excerpt = models.TextField()
     content = models.TextField()
 
     def __str__(self):
         return self.title
-

@@ -10,6 +10,6 @@ class InternshipAdmin(admin.ModelAdmin):
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ("title", "category", "date")
-    search_fields = ("title", "category")
-    list_filter = ("category", "date")
+    list_display = ("title", "date")
+    search_fields = ("title",)
+    list_filter = ("date",)
