@@ -1,5 +1,5 @@
 {% verbatim %}
-function InternshipCard({ internship }) {
+function InternshipCard({ internship, isFavorite, onToggleFavorite }) {
     const [viewed, setViewed] = React.useState(false);
 
     return (
@@ -9,9 +9,26 @@ function InternshipCard({ internship }) {
                     <h2 className="card-title">{internship.title}</h2>
                     <p className="card-company">{internship.company}</p>
                 </div>
-                <span className={`card-status ${viewed ? 'status-viewed' : 'status-not-viewed'}`}>
-                    {viewed ? 'Просмотрено' : 'Не просмотрено'}
-                </span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <span className={`card-status ${viewed ? 'status-viewed' : 'status-not-viewed'}`}>
+                        {viewed ? 'Просмотрено' : 'Не просмотрено'}
+                    </span>
+                    <button 
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            onToggleFavorite();
+                        }}
+                        style={{
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer',
+                            fontSize: '1.5rem',
+                            color: isFavorite ? 'gold' : 'gray'
+                        }}
+                    >
+                        {isFavorite ? '★' : '☆'}
+                    </button>
+                </div>
             </div>
             
             <p className="card-date">{formatDate(internship.date)}</p>
