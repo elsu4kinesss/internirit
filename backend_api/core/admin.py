@@ -4,7 +4,7 @@ from django.contrib.auth.admin import UserAdmin
     
 @admin.register(Internship)
 class InternshipAdmin(admin.ModelAdmin):
-    list_display = ('title', 'company', 'date', 'viewed')
+    list_display = ('title', 'company', 'date', 'viewed', 'external_url')
     list_filter = ('viewed',)
     search_fields = ('title', 'company')
     ordering = ('title',)

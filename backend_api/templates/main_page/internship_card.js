@@ -18,9 +18,15 @@ function InternshipCard({ internship }) {
             <p className="card-description">{internship.description}</p>
             
             <div className="card-footer">
-                <a href="/main" className="card-link" onClick={() => setViewed(true)}>
-                    Подробнее
-                </a>
+                <a
+                href={internship.external_url}
+                className="card-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setViewed(true)}
+              >
+                Подробнее
+              </a>
             </div>
         </div>
     );

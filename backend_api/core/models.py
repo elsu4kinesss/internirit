@@ -7,6 +7,7 @@ class Internship(models.Model):
     description = models.TextField()
     date = models.DateField()
     viewed = models.BooleanField(default=False)
+    external_url = models.URLField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.title} — {self.company}"
