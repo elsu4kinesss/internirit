@@ -1,7 +1,7 @@
 from django.urls import include, path
 from django.shortcuts import redirect
 from . import views
-from .views import internship_list, ArticleViewSet
+from .views import internship_list, ArticleViewSet, InternshipListAPIView, MarkInternshipViewedAPIView
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -15,4 +15,6 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api/auth/', include('djoser.urls')),
     path('api/auth/', include('djoser.urls.authtoken')),
-]
+    path('internships/', InternshipListAPIView.as_view(), name='internship-list'),
+    path('api/internships/mark_viewed/', MarkInternshipViewedAPIView.as_view(), name='mark_internship_viewed'),
+    ]

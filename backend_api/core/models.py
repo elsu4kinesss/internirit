@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 
 class Internship(models.Model):
@@ -6,11 +7,22 @@ class Internship(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     date = models.DateField()
-    viewed = models.BooleanField(default=False)
     external_url = models.URLField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.title} — {self.company}"
+
+class ViewedInternship(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='viewed_internships')
+    internship = models.ForeignKey(Internship, on_delete=models.CASCADE)
+    viewed_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'internship')
+
+    def __str__(self):
+        return f"{self.user.email} viewed {self.internship.title}"
+
 
 class Article(models.Model):
     title = models.CharField(max_length=200)

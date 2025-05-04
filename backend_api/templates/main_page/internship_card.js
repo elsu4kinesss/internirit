@@ -1,6 +1,22 @@
 {% verbatim %}
-function InternshipCard({ internship }) {
-    const [viewed, setViewed] = React.useState(false);
+function InternshipCard({ internship, token }) {
+    const [viewed, setViewed] = React.useState(internship.viewed);
+
+    const handleView = async () => {
+        try {
+            await fetch('/api/internships/mark_viewed/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${token}`
+                },
+                body: JSON.stringify({ internship: internship.id })
+            });
+            setViewed(true);
+        } catch (err) {
+            console.error("Ошибка при отметке как просмотрено", err);
+        }
+    };
 
     return (
         <div className="internship-card">
@@ -13,20 +29,20 @@ function InternshipCard({ internship }) {
                     {viewed ? 'Просмотрено' : 'Не просмотрено'}
                 </span>
             </div>
-            
+
             <p className="card-date">{formatDate(internship.date)}</p>
             <p className="card-description">{internship.description}</p>
-            
+
             <div className="card-footer">
                 <a
-                href={internship.external_url}
-                className="card-link"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setViewed(true)}
-              >
-                Подробнее
-              </a>
+                    href={internship.external_url}
+                    className="card-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={handleView}
+                >
+                    Подробнее
+                </a>
             </div>
         </div>
     );
