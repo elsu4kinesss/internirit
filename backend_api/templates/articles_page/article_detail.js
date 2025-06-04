@@ -5,6 +5,27 @@ function ArticleDetail({ id }) {
     const [error, setError] = React.useState(null);
 
     React.useEffect(() => {
+        // Handle our static proforientation article
+        if (id === 'proforientation') {
+            setArticle({
+                id: 'proforientation',
+                title: 'Тесты по профориентации в IT',
+                date: new Date().toISOString(),
+                content: `
+                    <p>Мы предлагаем вам пройти тесты по профориентации по ИТ специальностям. Они помогут точнее понять какая стажировка вам подойдет исходя из ваших качеств, желаний и предрасположенностей.</p>
+                    <p>Выбирайте тест:</p>
+                    <ul>
+                        <li><a href="https://practicum.yandex.ru/promo/test/" target="_blank">Яндекс Практикум</a></li>
+                        <li><a href="https://campus.epam.kz/ru/career-test/guidance" target="_blank">EPAM Campus</a></li>
+                        <li><a href="https://www.profguide.io/test/who-are-you-it-professions.html" target="_blank">ProfGuide</a></li>
+                        <li><a href="https://netology-code.github.io/who2be/" target="_blank">Netology</a></li>
+                    </ul>
+                `
+            });
+            setLoading(false);
+            return;
+        }
+
         fetch(`/api/articles/${id}/`)
             .then((res) => {
                 if (!res.ok) {
@@ -49,7 +70,6 @@ function ArticleDetail({ id }) {
                 <div className="article-content" dangerouslySetInnerHTML={{ __html: article.content }} />
             </div>
         </div>
-        
     );    
 }
 {% endverbatim %}
