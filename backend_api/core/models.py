@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 
 class Internship(models.Model):
@@ -41,6 +42,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=150)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    favorites = models.ManyToManyField('Internship', blank=True, related_name='favorited_by')
 
     objects = CustomUserManager()
 

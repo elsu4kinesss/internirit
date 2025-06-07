@@ -4,9 +4,17 @@ from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer,
 
 
 class InternshipSerializer(serializers.ModelSerializer):
+    is_favorite = serializers.SerializerMethodField()
+
     class Meta:
         model = Internship
         fields = '__all__'
+
+    def get_is_favorite(self, obj):
+        user = self.context.get('request').user
+        if user.is_authenticated:
+            return obj in user.favorites.all()
+        return False
 
 class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,6 +27,8 @@ class UserCreateSerializer(BaseUserCreateSerializer):
         fields = ('id', 'email', 'name', 'password')
 
 class UserSerializer(BaseUserSerializer):
+    favorites = InternshipSerializer(many=True, read_only=True)
     class Meta(BaseUserSerializer.Meta):
         model = CustomUser
-        fields = ('id', 'email', 'name')
+        fields = ('id', 'email', 'name', 'favorites')
+
