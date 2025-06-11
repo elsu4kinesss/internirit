@@ -6,7 +6,7 @@ function HomePage() {
     const [favorites, setFavorites] = React.useState(() => {
         return JSON.parse(localStorage.getItem('favorites')) || [];
     });
-    const authToken = localStorage.getItem('auth_token');
+    const authToken = localStorage.getItem('token');
 
     React.useEffect(() => {
         const fetchInternships = async () => {
