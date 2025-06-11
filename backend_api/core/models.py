@@ -57,3 +57,15 @@ class InternshipView(models.Model):
 
     class Meta:
         unique_together = ('user', 'internship')
+
+class FavoriteInternship(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    internship = models.ForeignKey(Internship, on_delete=models.CASCADE)
+    favorited = models.BooleanField(default=True)
+    favorited_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('user', 'internship')
+
+    def __str__(self):
+        return f"{self.user.email} ⭐ {self.internship.title}"

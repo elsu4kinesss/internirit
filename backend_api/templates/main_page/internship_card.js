@@ -1,12 +1,34 @@
 {% verbatim %}
 function InternshipCard({ internship, isFavorite, onToggleFavorite, onViewDetails }) {
     const [viewed, setViewed] = React.useState(internship.viewed || false);
+    const [favorite, setFavorite] = React.useState(isFavorite);
+    React.useEffect(() => {
+        setFavorite(isFavorite);
+    }, [isFavorite]);
 
     const handleViewDetails = (e) => {
         e.preventDefault();
         setViewed(true);
         onViewDetails();
         window.open(internship.external_url, '_blank');
+    };
+
+    const handleToggleFavorite = async (e) => {
+        e.stopPropagation();
+        try {
+            const response = await fetch(`/api/internships/${internship.id}/toggle_favorite/`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            const data = await response.json();
+            setFavorite((prev) => !prev);
+        } catch (error) {
+            console.error('Ошибка при изменении избранного:', error);
+        }
     };
 
     return (
@@ -26,19 +48,16 @@ function InternshipCard({ internship, isFavorite, onToggleFavorite, onViewDetail
                         {viewed ? 'Просмотрено' : 'Не просмотрено'}
                     </span>
                     <button 
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            onToggleFavorite();
-                        }}
+                        onClick={handleToggleFavorite}
                         style={{
                             background: 'none',
                             border: 'none',
                             cursor: 'pointer',
                             fontSize: '1.5rem',
-                            color: isFavorite ? 'gold' : 'gray'
+                            color: favorite ? 'gold' : 'gray'
                         }}
                     >
-                        {isFavorite ? '★' : '☆'}
+                        {favorite ? '★' : '☆'}
                     </button>
                 </div>
             </div>

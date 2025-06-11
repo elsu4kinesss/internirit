@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Internship, Article, InternshipView
+from .models import Internship, Article, InternshipView, FavoriteInternship
 from django.http import JsonResponse
 from .serializers import InternshipSerializer, ArticleSerializer
 from rest_framework import viewsets
@@ -34,6 +34,19 @@ class InternshipViewSet(viewsets.ReadOnlyModelViewSet):
             defaults={'viewed': True}
         )
         return Response({'status': 'marked as viewed'})
+
+    @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
+    def toggle_favorite(self, request, pk=None):
+        internship = self.get_object()
+        user = request.user
+
+        try:
+            favorite = FavoriteInternship.objects.get(user=user, internship=internship)
+            favorite.delete()
+            return Response({"status": "removed"})
+        except FavoriteInternship.DoesNotExist:
+            FavoriteInternship.objects.create(user=user, internship=internship)
+            return Response({"status": "added"})
 
 def main_page(request):
     return render(request, 'main.html')

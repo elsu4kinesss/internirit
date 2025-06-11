@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Internship, Article, CustomUser, InternshipView
+from .models import Internship, Article, CustomUser, InternshipView, FavoriteInternship
 from django.contrib.auth.admin import UserAdmin
     
 @admin.register(Internship)
@@ -14,6 +14,12 @@ class InternshipViewAdmin(admin.ModelAdmin):
     list_filter = ('viewed',)
     search_fields = ('user__email', 'internship__title')
     list_select_related = ('user', 'internship')
+
+@admin.register(FavoriteInternship)
+class FavoriteInternshipAdmin(admin.ModelAdmin):
+    list_display = ('user', 'internship', 'favorited', 'favorited_at')
+    list_filter = ('favorited', 'favorited_at')
+    search_fields = ('user__email', 'internship__title')
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
