@@ -1,3 +1,4 @@
+{% verbatim %}
 const AuthContext = React.createContext();
 
 function AuthProvider({ children }) {
@@ -130,3 +131,4 @@ function AuthProvider({ children }) {
         </AuthContext.Provider>
     );
 }
+{% endverbatim %}

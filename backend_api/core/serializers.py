@@ -14,7 +14,8 @@ class InternshipSerializer(serializers.ModelSerializer):
         request = self.context.get('request')
         if request and request.user.is_authenticated:
             return FavoriteInternship.objects.filter(
-                user=request.user, internship=obj, favorited=True
+                user=request.user,
+                internship=obj
             ).exists()
         return False
 

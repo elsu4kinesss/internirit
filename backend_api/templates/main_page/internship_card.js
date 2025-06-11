@@ -26,6 +26,7 @@ function InternshipCard({ internship, isFavorite, onToggleFavorite, onViewDetail
 
             const data = await response.json();
             setFavorite((prev) => !prev);
+            onToggleFavorite(internship.id, !favorite);
         } catch (error) {
             console.error('Ошибка при изменении избранного:', error);
         }
@@ -47,7 +48,7 @@ function InternshipCard({ internship, isFavorite, onToggleFavorite, onViewDetail
                     <span className={`card-status ${viewed ? 'status-viewed' : 'status-not-viewed'}`}>
                         {viewed ? 'Просмотрено' : 'Не просмотрено'}
                     </span>
-                    <button 
+                    <button
                         onClick={handleToggleFavorite}
                         style={{
                             background: 'none',
