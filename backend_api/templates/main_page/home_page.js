@@ -6,16 +6,27 @@ function HomePage() {
     const [favorites, setFavorites] = React.useState(() => {
         return JSON.parse(localStorage.getItem('favorites')) || [];
     });
+    const authToken = localStorage.getItem('auth_token');
 
     React.useEffect(() => {
-        fetch('/api/internships/')
-            .then(response => response.json())
-            .then(data => {
+        const fetchInternships = async () => {
+            try {
+                const response = await fetch('/api/internships/', {
+                    headers: authToken ? {
+                        'Authorization': `Token ${authToken}`
+                    } : {}
+                });
+                const data = await response.json();
                 setInternships(data);
                 setLoading(false);
-            });
-    }, []);
-    
+            } catch (error) {
+                console.error('Error fetching internships:', error);
+                setLoading(false);
+            }
+        };
+
+        fetchInternships();
+    }, [authToken]);
 
     React.useEffect(() => {
         localStorage.setItem('favorites', JSON.stringify(favorites));
@@ -27,6 +38,28 @@ function HomePage() {
                 ? prev.filter(item => item !== id) 
                 : [...prev, id]
         );
+    };
+
+    const markAsViewed = async (id) => {
+        if (!authToken) return;
+        
+        try {
+            const response = await fetch(`/api/internships/${id}/mark_as_viewed/`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Token ${authToken}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if (response.ok) {
+                setInternships(prev => prev.map(item => 
+                    item.id === id ? {...item, viewed: true} : item
+                ));
+            }
+        } catch (error) {
+            console.error('Error marking as viewed:', error);
+        }
     };
 
     const filteredInternships = internships.filter(internship => {
@@ -51,6 +84,7 @@ function HomePage() {
                         internship={internship} 
                         isFavorite={favorites.includes(internship.id)}
                         onToggleFavorite={() => toggleFavorite(internship.id)}
+                        onViewDetails={() => markAsViewed(internship.id)}
                     />
                 ))
             )}

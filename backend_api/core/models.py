@@ -6,7 +6,6 @@ class Internship(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     date = models.DateField()
-    viewed = models.BooleanField(default=False)
     external_url = models.URLField(blank=True, null=True)
 
     def __str__(self):
@@ -49,3 +48,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email or self.email
+    
+class InternshipView(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    internship = models.ForeignKey(Internship, on_delete=models.CASCADE)
+    viewed = models.BooleanField(default=False)
+    viewed_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('user', 'internship')

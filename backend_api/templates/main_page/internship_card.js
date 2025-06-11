@@ -1,6 +1,13 @@
 {% verbatim %}
-function InternshipCard({ internship, isFavorite, onToggleFavorite }) {
-    const [viewed, setViewed] = React.useState(false);
+function InternshipCard({ internship, isFavorite, onToggleFavorite, onViewDetails }) {
+    const [viewed, setViewed] = React.useState(internship.viewed || false);
+
+    const handleViewDetails = (e) => {
+        e.preventDefault();
+        setViewed(true);
+        onViewDetails();
+        window.open(internship.external_url, '_blank');
+    };
 
     return (
         <div className="internship-card">
@@ -36,14 +43,14 @@ function InternshipCard({ internship, isFavorite, onToggleFavorite }) {
 
             <div className="card-footer">
                 <a
-                href={internship.external_url}
-                className="card-link"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setViewed(true)}
-              >
-                Подробнее
-              </a>
+                    href={internship.external_url}
+                    className="card-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={handleViewDetails}
+                >
+                    Подробнее
+                </a>
             </div>
         </div>
     );
