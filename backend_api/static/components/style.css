@@ -231,6 +231,18 @@ body {
     flex-direction: column;
 }
 
+.internship-card-viewed {
+    background-color: #cbd8ef;
+    border-radius: 0.8rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+}
+
 .internship-card:hover {
     transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
@@ -282,7 +294,7 @@ body {
 }
 
 .status-viewed {
-    background-color: var(--status-viewed);
+    background-color:#cbd8ef;
     color: #00a854;
 }
 
@@ -418,6 +430,8 @@ body {
     margin: 1rem 0;
     border-radius: 0.5rem;
 }
+
+
 
 /* Кнопка переключения темы */
 .theme-toggle {

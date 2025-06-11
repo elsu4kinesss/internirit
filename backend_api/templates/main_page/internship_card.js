@@ -10,7 +10,12 @@ function InternshipCard({ internship, isFavorite, onToggleFavorite, onViewDetail
     };
 
     return (
-        <div className="internship-card">
+        <div
+            className={`internship-card ${viewed ? 'internship-card-viewed' : ''}`}
+            style={{
+                transition: 'background-color 0.3s ease'
+            }}
+        >
             <div className="card-header">
                 <div>
                     <h2 className="card-title">{internship.title}</h2>
