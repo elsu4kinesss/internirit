@@ -70,7 +70,6 @@ function AuthProvider({ children }) {
                 localStorage.setItem('token', data.auth_token);
                 localStorage.setItem('email', email);
     
-                // 👇 Получаем имя пользователя
                 const profileRes = await fetch('/api/auth/users/me/', {
                     headers: {
                         'Content-Type': 'application/json',
@@ -87,6 +86,8 @@ function AuthProvider({ children }) {
                 });
     
                 setShowAuthModal(false);
+                window.location.reload();
+                localStorage.removeItem('favorites');
             } else {
                 alert("Ошибка входа: " + JSON.stringify(data));
             }
@@ -114,6 +115,8 @@ function AuthProvider({ children }) {
         setUser(null);
         localStorage.removeItem('token');
         localStorage.removeItem('email');
+        localStorage.removeItem('favorites');
+        window.location.reload();
     };
 
     return (
