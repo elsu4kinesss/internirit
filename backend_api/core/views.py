@@ -54,6 +54,9 @@ def main_page(request):
 def articles_page(request):
     return render(request, 'articles.html')
 
+def privacy_policy(request):
+    return render(request, 'components/privacy_policy.html')
+
 class ArticleViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Article.objects.all().order_by('-date')
     serializer_class = ArticleSerializer

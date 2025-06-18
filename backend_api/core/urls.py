@@ -15,4 +15,5 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api/auth/', include('djoser.urls')),
     path('api/auth/', include('djoser.urls.authtoken')),
+    path('privacy-policy', views.privacy_policy, name='privacy_policy'),
 ]

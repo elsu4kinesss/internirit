@@ -12,7 +12,7 @@ function AuthModal() {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [name, setName] = React.useState('');
-    
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (authMode === 'login') {
@@ -69,16 +69,16 @@ function AuthModal() {
                         />
                     </div>
                     {authMode === 'register' && (
-                        <div className="form-group">
-                            <label className="form-label">Имя</label>
-                            <input
-                                type="text"
-                                className="form-input"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                required
-                            />
-                        </div>
+                            <div className="form-group">
+                                <label className="form-label">Имя</label>
+                                <input
+                                    type="text"
+                                    className="form-input"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    required
+                                />
+                            </div>
                     )}
                     <button type="submit" className="auth-button">
                         {authMode === 'login' ? 'Войти' : 'Зарегистрироваться'}
@@ -107,6 +107,27 @@ function AuthModal() {
                         </>
                     )}
                 </div>
+                {authMode === 'register' && (
+                    <div className="privacy-policy-link" style={{
+                        textAlign: 'center',
+                        marginTop: '20px',
+                        fontSize: '14px',
+                        color: '#666'
+                    }}>
+                        Продолжая регистрацию, вы соглашаетесь с нашими{' '}
+                        <a 
+                            href="/privacy-policy" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            style={{
+                                color: '#007bff',
+                                textDecoration: 'underline'
+                            }}
+                        >
+                            условиями политики конфиденциальности
+                        </a>.
+                    </div>
+                )}
             </div>
         </div>
     );
