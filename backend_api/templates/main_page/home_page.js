@@ -6,6 +6,7 @@ function HomePage() {
     const [favorites, setFavorites] = React.useState(() => {
         return JSON.parse(localStorage.getItem('favorites')) || [];
     });
+    const [companyFilter, setCompanyFilter] = React.useState('');
     const authToken = localStorage.getItem('token');
 
     React.useEffect(() => {
@@ -18,9 +19,9 @@ function HomePage() {
                 });
                 const data = await response.json();
                 setInternships(data);
-                setLoading(false);
             } catch (error) {
                 console.error('Error fetching internships:', error);
+            } finally {
                 setLoading(false);
             }
         };
@@ -63,30 +64,44 @@ function HomePage() {
     };
 
     const filteredInternships = internships.filter(internship => {
-        if (activeFilter === 'viewed') return internship.viewed;
-        if (activeFilter === 'not-viewed') return !internship.viewed;
-        if (activeFilter === 'favorites') return favorites.includes(internship.id);
-        return true;
+        const matchesCompany = companyFilter
+            ? internship.company.toLowerCase().includes(companyFilter.toLowerCase())
+            : true;
+
+        if (activeFilter === 'viewed') return internship.viewed && matchesCompany;
+        if (activeFilter === 'not-viewed') return !internship.viewed && matchesCompany;
+        if (activeFilter === 'favorites') return favorites.includes(internship.id) && matchesCompany;
+        return matchesCompany;
     });
 
     return (
         <div className="main-container">
-            <FilterPanel activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
+            <FilterPanel
+                activeFilter={activeFilter}
+                setActiveFilter={setActiveFilter}
+                onCompanyChange={setCompanyFilter}
+            />
 
             {loading ? (
                 <div style={{ textAlign: 'center', padding: '2rem' }}>
                     Загрузка стажировок...
                 </div>
             ) : (
-                filteredInternships.map(internship => (
-                    <InternshipCard 
-                        key={internship.id} 
-                        internship={internship} 
-                        isFavorite={favorites.includes(internship.id)}
-                        onToggleFavorite={() => toggleFavorite(internship.id)}
-                        onViewDetails={() => markAsViewed(internship.id)}
-                    />
-                ))
+                filteredInternships.length > 0 ? (
+                    filteredInternships.map(internship => (
+                        <InternshipCard 
+                            key={internship.id} 
+                            internship={internship} 
+                            isFavorite={favorites.includes(internship.id)}
+                            onToggleFavorite={() => toggleFavorite(internship.id)}
+                            onViewDetails={() => markAsViewed(internship.id)}
+                        />
+                    ))
+                ) : (
+                    <div style={{ textAlign: 'center', padding: '2rem', color: '#666' }}>
+                        Нет стажировок по вашему запросу
+                    </div>
+                )
             )}
         </div>
     );

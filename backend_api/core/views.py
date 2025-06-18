@@ -6,6 +6,7 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from django_filters import rest_framework as filters
 
 def internship_list(request):
     internships = Internship.objects.all()
@@ -16,9 +17,18 @@ def internship_list(request):
     )
     return JsonResponse(serializer.data, safe=False)
 
+class InternshipFilter(filters.FilterSet):
+    company = filters.CharFilter(field_name="company", lookup_expr='iexact')
+
+    class Meta:
+        model = Internship
+        fields = ['company']
+
 class InternshipViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Internship.objects.all()
     serializer_class = InternshipSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = InternshipFilter
     
     def get_serializer_context(self):
         context = super().get_serializer_context()
